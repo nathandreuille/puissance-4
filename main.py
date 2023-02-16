@@ -30,3 +30,4 @@ while lauched :
     
     
     pygame.display.flip()
+
