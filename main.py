@@ -63,13 +63,3 @@ while lauched :
     
     
 
-    
-"""
-class Game :
-    def __init__(self,age,poids):
-        self.age = age
-        self.poids = poids
-    
-    def afficher(self):
-        print("j'ai",self.age,"et je fais",self.poids)
-"""
