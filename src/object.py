@@ -7,14 +7,10 @@ class Token:
         self.token_image = token_image
 
     def load_token(self):
-        token =  pygame.image.load(self.token_image)
-        token.convert_alpha()
+        token =  pygame.image.load(self.token_image).convert_alpha()
+        return token
 
 
-class Checkerboard :
-    def __init__(self,checkerboard_image):
-        self.checkerboard_image = checkerboard_image
 
-    def load_checkerboard(self):
-        checkerboard    = pygame.image.load(self.checkerboard_image)
-        checkerboard.convert_alpha()
+        
+       

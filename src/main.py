@@ -1,34 +1,49 @@
 import pygame
+from object import Token 
 
-# Créer la fenetre du jeu :
 
 pygame.init()
 
-# 1 : titre et résolution de la fenetre 
+# titre et résolution de la fenetre 
 
 resolution = (692,590)
 pygame.display.set_caption("Puissance 4")
 window_screen = pygame.display.set_mode(resolution, pygame.RESIZABLE)
-damier = pygame.image.load("damier.png")
-damier.convert_alpha()
-red_token = pygame.image.load("pion_rouge.png")
-red_token.convert_alpha()
-yellow_token = pygame.image.load("pion_jaune.png")
-yellow_token.convert_alpha()
 
-#2 : Boucle pour maintenir la fenetre ouverte 
+# damier puissance 4
+
+checkerboard = pygame.image.load("image\damier.png").convert_alpha()
+
+# création jetons rouges et jaunes
+
+red_token = Token(1,"image\pion_rouge.png")
+red_token = red_token.load_token()
+
+yellow_token = Token(-1,"image\pion_jaune.png")
+yellow_token = yellow_token.load_token()
+
+# reglage des frames 
+
+clock = pygame.time.Clock()
 x = 0
 y =0
 x2=100
 y2= 100
+
+#Boucle pour maintenir la fenetre ouverte 
+
 lauched = True
 while lauched :
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             lauched = False
-    window_screen.blit(damier,[0,0])
+    
+    clock.tick(60) #réglage à 60 fps
+    
+    window_screen.blit(checkerboard,(0,0)) # affficher les images et leurs permettre de se déplacer
     window_screen.blit(yellow_token,(x,y))
     window_screen.blit(red_token,(x2,y2))
+    
     pressed = pygame.key.get_pressed()
     if pressed [pygame.K_LEFT]:
         x-=1
@@ -55,7 +70,7 @@ while lauched :
         
     if pressed [pygame.K_s]: 
         y2+=1
-    
+
     pygame.display.flip()
 
     
