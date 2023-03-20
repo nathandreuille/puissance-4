@@ -1,0 +1,7 @@
+répartition des taches pour le mardi 28 mai :
+
+Brian : améliorer le rendu visuel de l'interface graphique (fenetre entrée du jeu)
+
+Adrien : trouver un moyen de lier les differentes fenetre de jeux entre elles (debut du jeu et les fenetre partie en 3 manches et partie classique)
+
+Nathan : avancer la structure globale du code notamment en mettant en place un système de matrice qui represente la grille du puissance 4
