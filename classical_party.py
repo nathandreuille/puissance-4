@@ -1,12 +1,13 @@
 from tkinter import *
 import random 
+
 fen = Tk()
 fen.title("partie classique puissance 4")
 fen.resizable(width=False,height= False)
 can = Canvas(fen,height= 600, width=700, bg = "#000EEC")
 can.pack()
 player = random.randint(1,2) # 1 : jaune , 2 : rouge
-
+checkerboard_list = [[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]]
 if player == 1:
     label = Label(fen,text = "Le joueur jaune commence", font = "arial 16 bold")
 else :   
@@ -21,7 +22,7 @@ def checkerboard():
     y2 = 100
     for x in range(6):  
         for i in range(7):
-            can.create_rectangle(x1,y1,x2,y2)
+            can.create_rectangle(x1,y1,x2,y2,width=5)
             x1+=100
             x2+=100
         x1 =0
@@ -30,14 +31,14 @@ def checkerboard():
 
 
 def red_token(x1,y1,x2,y2):
-    can.create_oval(x1,y1,x2,y2,fill = "red")
+    can.create_oval(x1+10,y1+10,x2-10,y2-10,fill = "#FF0000",width=3)
 
 
 def yellow_token(x1,y1,x2,y2):
-    can.create_oval(x1,y1,x2,y2,fill = "yellow")
+    can.create_oval(x1+10,y1+10,x2-10,y2-10,fill = "#EED430",width=3)
 
 def clic(event):
-    global player
+    global player,checkerboard_list
     X = event.x
     Y = event.y
     col = X //100
@@ -48,19 +49,12 @@ def clic(event):
     else:
         red_token(col*100,line*100,col*100+100,line*100+100)
         player = 1
+    
+
 
 
 can.bind("<Button>",clic)
-        
-
-
-
 checkerboard()
-
-
-
-
-
 fen.mainloop()
 
 

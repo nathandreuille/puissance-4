@@ -92,4 +92,4 @@ can.create_image(100,100,image = fond_image_pion_rouge)
 can.create_image(100,200,image = fond_image_pion_jaune)
 
 can.pack()
-fen.mainloop()"""
+fen.mainloop()"""   
