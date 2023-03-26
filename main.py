@@ -20,8 +20,14 @@ def fct_classical_party ():  # fonction qui permet de lancer une partie classiqu
     else :   
         label = Label(fen,text = "Le joueur rouge commence",font = "arial 16 bold")
     label.pack()
+    button_restart = Button(fen,text = "Recommencer ",font = "arial 16 bold")
+    button_menu = Button(fen,text = "Menu ",font = "arial 16 bold")
+    button_restart.pack()
+    button_menu.pack()
+    
     can.bind("<Button>",clic) # méthode qui enregistre les clics de la souris 
     checkerboard() # on appelle la fonction pour generer le damier de jeu 
+    
     fen.mainloop() # mainloop permet de faire une boucle qui ne se termine pas tant qu'on ne ferme pas la fenetre comme un while == True tant qu'on appuie par sur la croix de la fenetre du jeu 
 
 
@@ -54,7 +60,6 @@ def clic(event): # fonction qui permet d'interpreter les entrées utilisateur (l
     col = X //100 # on fait la division euclidienne pour recuperer la colone du clic qui sont numérotées de 1 à 6
     line = Y//100 # on fait la division euclidienne pour recuperer la ligne du clic qui sont numérotées de 1 à 7
     id_checkerboard = [col,line] # variable qui récupere sous forme de liste la colonne et la ligne de l'entrée utilisateur 
-    
     if player == 1:
         while checkerboard_list[col][line+1]==0: # pour faire descendre le jeton dans le damier jusqu'à qu'il y en ait un en dessous d'ou l'interet du 3 dans la liste qui empeche le jeton de desendre plus bas que le damier
             line+=1
