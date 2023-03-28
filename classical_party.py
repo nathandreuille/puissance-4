@@ -1,6 +1,6 @@
 from tkinter import *
 import random 
-def fct_classical_party ():
+"""def fct_classical_party ():
     global can,fen,player,checkerboard_list
     fen = Tk()
     fen.title("partie classique puissance 4")
@@ -65,7 +65,8 @@ def clic(event):
         player = 1
 
 
-fct_classical_party()
+fct_classical_party()"""
 
 
 
+checkerboard_list = [[0,0,0,0,0,0,3],[0,0,0,0,0,0,3],[0,0,0,0,0,0,3],[0,0,0,0,0,0,3],[0,0,0,0,0,0,3],[0,0,0,0,0,0,3],[0,0,0,0,0,0,3]]
