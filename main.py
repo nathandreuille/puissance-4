@@ -6,36 +6,36 @@ import random # module qui va nous permettre d'appeler la méthode randint pour 
 
     
 def fct_classical_party ():  # fonction qui permet de lancer une partie classique lorsque l'on appuie sur le bouton partie classique dans le menu pricipal 
-    global can,fen,player,checkerboard_list,label_player
+    global can,fen,player,checkerboard_list,label_player,red_score,yellow_score,compteur_equality
     fen = Tk() # fenetre partie classique 
-   
+    
     # configuration de la fenetre de la partie classique 
     fen.title("partie classique puissance 4")
     fen.resizable(width=False,height= False)
     can = Canvas(fen,height= 600, width=700, bg = "#000EEC")
     can.pack()
     player = random.randint(1,2) # 1 : jaune , 2 : rouge , la méthode random permet de chosir aléatoirement la joueur qui débute 
+    red_score, yellow_score = 0,0
     checkerboard_list = [[0,0,0,0,0,0,3],[0,0,0,0,0,0,3],[0,0,0,0,0,0,3],[0,0,0,0,0,0,3],[0,0,0,0,0,0,3],[0,0,0,0,0,0,3],[0,0,0,0,0,0,3]] # variable qui represente le damier du puissance 4 la valeur 3 permet de bloquer la descente du jeton à la derniere ligne(suite du programme)
+    compteur_equality=0
     if player == 1:
         label_player = Label(fen,text = "Le joueur jaune commence la partie", font = "arial 16 bold")
         
     else :   
         label_player = Label(fen,text = "Le joueur rouge commence la partie",font = "arial 16 bold")
     label_player.pack()
-        
-
     
     button_restart = Button(fen,text = "Recommencer ",font = "arial 16 bold",command =restart_game)
     button_menu = Button(fen,text = "Menu ",font = "arial 16 bold",command =fen.destroy)
     button_restart.pack()
     button_menu.pack()
-    
-    can.bind("<Button>",clic) # méthode qui enregistre les clics de la souris 
+    can.bind("<Button>",player_action) # méthode qui enregistre les clics de la souris 
     checkerboard() # on appelle la fonction pour generer le damier de jeu 
-    
     fen.mainloop() # mainloop permet de faire une boucle qui ne se termine pas tant qu'on ne ferme pas la fenetre comme un while == True tant qu'on appuie par sur la croix de la fenetre du jeu 
 
-
+def fct_3set_party():
+    pass
+    
 
 def checkerboard(): # fonction pour créer le damier du jeu (sous forme de dessin)
     x1 =0
@@ -59,8 +59,8 @@ def red_token(x1,y1,x2,y2): # fonction pour générer les pions rouges
 def yellow_token(x1,y1,x2,y2): # fonction pour générer les pions jaunes 
     can.create_oval(x1+10,y1+10,x2-10,y2-10,fill = "#FFEC00",width=3,outline = "white")
 
-def clic(event): # fonction qui permet d'interpreter les entrées utilisateur (les clics de souris des joueurs)
-    global player,checkerboard_list
+def player_action(event): # fonction qui permet d'interpreter les entrées utilisateur (les clics de souris des joueurs)
+    global player,checkerboard_list, red_score,yellow_score,compteur_equality
     
     X = event.x # cordonnées en X du clic 
     Y = event.y # cordonnés en Y du clic 
@@ -68,10 +68,20 @@ def clic(event): # fonction qui permet d'interpreter les entrées utilisateur (l
     line = Y//100 # on fait la division euclidienne pour recuperer la ligne du clic qui sont numérotées de 1 à 7
     id_checkerboard = [col,line] # variable qui récupere sous forme de liste la colonne et la ligne de l'entrée utilisateur 
     
+    compteur_equality+=1 
+    if compteur_equality==42: # 42 soit 6*7 permet d'arreter le jeu lorsqu'il y a égalité entre les 2 joueurs c'est à dire quand tous les trous du damier sont occcupés 
+        label_equality= Label(fen,text = "Equalité entre les 2 joueurs !",font= "arial 20 bold",bg ="white", fg ="black" )
+        label_equality.place(x = 210,y=285)
+        fen.after(3000, fen.destroy)
+    
     if player == 1: # actions du joueur jaune 
+        
         while checkerboard_list[col][line+1]==0: # pour faire descendre le jeton dans le damier jusqu'à qu'il y en ait un en dessous d'ou l'interet du 3 dans la liste qui empeche le jeton de desendre plus bas que le damier
             line+=1
             
+            
+        while checkerboard_list[col][line]!=0: # empecher de changer la couleur d'un pion qui est deja placé dans le damier
+            line-=1    
         checkerboard_list[col][line] = 1
         yellow_token(col*100,line*100,col*100+100,line*100+100) # on appelle la fonction pour créer un jeton jaune 
         
@@ -80,10 +90,14 @@ def clic(event): # fonction qui permet d'interpreter les entrées utilisateur (l
         if fct_line_winner() or fct_column_winner() or fct_diagonal_winner(): # controler si un joueur a alligné 4 jetons
             label_yellow_winner = Label(fen,text = "Le joueur jaune a gagné",font= "arial 20 bold",bg ="#FFEC00", fg ="black" )
             label_yellow_winner.place(x = 210,y=285)
+            yellow_score +=1
+           
             fen.after(3000, fen.destroy) # fermer la fenetre après une victoire
     else: # actions du joueur rouge 
         while checkerboard_list[col][line+1]==0:
             line+=1
+        while checkerboard_list[col][line]!=0:
+            line-=1
         checkerboard_list[col][line] = 2
         red_token(col*100,line*100,col*100+100,line*100+100)
         
@@ -91,7 +105,10 @@ def clic(event): # fonction qui permet d'interpreter les entrées utilisateur (l
         if fct_line_winner() or fct_column_winner() or fct_diagonal_winner():
             label_red_winner = Label(fen,text = "Le joueur rouge a gagné",font= "arial 20 bold", bg = "#FF0000",fg ="black")
             label_red_winner.place(x = 210,y=285)
+            red_score +=1
+            
             fen.after(3000, fen.destroy)
+
 
 def restart_game():  # fonction pour recommencer la partie quand on clique sur le bouton "recommencer"
     fen.destroy()
@@ -110,8 +127,8 @@ def fct_line_winner(): # fonction pour controler si un joueur a fait une ligne d
         
 def fct_column_winner(): #fonction pour controler si un joueur a fait une colonne de 4
     winner = False
-    for i in range(6):
-        for a in range(3):
+    for i in range(7):
+        for a in range(4):
             if checkerboard_list[i][a] == checkerboard_list[i][a+1]==checkerboard_list[i][a+2]==checkerboard_list[i][a+3] and checkerboard_list[i][a] +checkerboard_list[i][a+1]+checkerboard_list[i][a+2] + checkerboard_list[i][a+3]!=0:
                 winner = True
                 
@@ -131,13 +148,12 @@ def fct_diagonal_winner(): #fonction pour controler si un joueur a fait une diag
 
 
 windows = Tk() # fenetre du  menu principal 
-
 # configuration de la fenetre du menu 
 windows.title ("puissance 4")
 windows.configure(bg ='white')
 can = Canvas(windows, width = 500, height = 500, bg ="white")
 font = 'arial 13 bold' # ecriture en gras
-boutton_3manches = Button(windows,text = "Commencer une partie en 3 manches",font = font, fg = "black", bg = 'white') # button permet de "pack" un bouton sur la canvas (fenetre ou l'on interagit)
+boutton_3manches = Button(windows,text = "Commencer une partie en 3 manches",font = font, fg = "black", bg = 'white',command=fct_3set_party) # button permet de "pack" un bouton sur la canvas (fenetre ou l'on interagit)
 boutton_classique = Button(windows,text = 'Commencer une partie classique',font = font, fg = "black", bg = 'white',command = fct_classical_party) # on appelle la fonction fct_classical party pour lancer la partie lorsque le bouton est pressé 
 quit = Button(windows, text="Annuler", font = font,fg ="black",bg ="white", command = windows.destroy ) # fermer la fenetre quanbd on appuie sur le bouton annuler
 frame = Frame (windows, bg = "white")
