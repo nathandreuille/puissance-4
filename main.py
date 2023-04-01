@@ -29,8 +29,8 @@ def fct_classical_party ():  # fonction qui permet de lancer une partie classiqu
     button_menu = Button(fen,text = "Menu ",font = "arial 16 bold",command =fen.destroy)
     button_restart.pack()
     button_menu.pack()
-    can.bind("<Button>",player_action) # méthode qui enregistre les clics de la souris 
     checkerboard() # on appelle la fonction pour generer le damier de jeu 
+    can.bind("<Button>",player_action) # méthode qui enregistre les clics de la souris 
     fen.mainloop() # mainloop permet de faire une boucle qui ne se termine pas tant qu'on ne ferme pas la fenetre comme un while == True tant qu'on appuie par sur la croix de la fenetre du jeu 
 
 def fct_3set_party():
@@ -91,9 +91,9 @@ def player_action(event): # fonction qui permet d'interpreter les entrées utili
             label_yellow_winner = Label(fen,text = "Le joueur jaune a gagné",font= "arial 20 bold",bg ="#FFEC00", fg ="black" )
             label_yellow_winner.place(x = 210,y=285)
             yellow_score +=1
-           
             fen.after(3000, fen.destroy) # fermer la fenetre après une victoire
-    else: # actions du joueur rouge 
+            player = 0
+    elif player == 2: # actions du joueur rouge 
         while checkerboard_list[col][line+1]==0:
             line+=1
         while checkerboard_list[col][line]!=0:
@@ -106,7 +106,7 @@ def player_action(event): # fonction qui permet d'interpreter les entrées utili
             label_red_winner = Label(fen,text = "Le joueur rouge a gagné",font= "arial 20 bold", bg = "#FF0000",fg ="black")
             label_red_winner.place(x = 210,y=285)
             red_score +=1
-            
+            player= 0
             fen.after(3000, fen.destroy)
 
 
