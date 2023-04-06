@@ -66,3 +66,15 @@ def clic(event):
 
 
 fct_classical_party()"""
+
+
+def fct_equality():
+    checkerboard_list = [[1,1,1,1,1,1,3],[1,1,1,1,1,1,3],[1,1,1,1,1,1,3],[1,1,1,1,1,1,3],[1,1,1,1,1,1,3],[1,1,1,1,1,1,3],[1,1,1,1,1,1,3]]
+   
+    a =0
+    if a in checkerboard_list[0]  or a in checkerboard_list[1] or a in checkerboard_list[2] or a in checkerboard_list[3] or a in checkerboard_list[4] or a in checkerboard_list[5] or a in checkerboard_list[6]: 
+        equality = False 
+    else :
+        equality =True 
+    return equality
+print(fct_equality())
