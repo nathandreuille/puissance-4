@@ -3,12 +3,9 @@ import random # module qui va nous permettre d'appeler la méthode randint pour 
 
 # programme puissance 4 :
 
-
-    
 def fct_classical_party ():  # fonction qui permet de lancer une partie classique lorsque l'on appuie sur le bouton partie classique dans le menu pricipal 
     global can,fen,player,checkerboard_list,label_player,red_score,yellow_score
     fen = Tk() # fenetre partie classique 
-    
     # configuration de la fenetre de la partie classique 
     fen.title("partie classique puissance 4")
     fen.resizable(width=False,height= False)
@@ -17,18 +14,20 @@ def fct_classical_party ():  # fonction qui permet de lancer une partie classiqu
     player = random.randint(1,2) # 1 : jaune , 2 : rouge , la méthode random permet de chosir aléatoirement la joueur qui débute 
     red_score, yellow_score = 0,0
     checkerboard_list = [[0,0,0,0,0,0,3],[0,0,0,0,0,0,3],[0,0,0,0,0,0,3],[0,0,0,0,0,0,3],[0,0,0,0,0,0,3],[0,0,0,0,0,0,3],[0,0,0,0,0,0,3]] # variable qui represente le damier du puissance 4 la valeur 3 permet de bloquer la descente du jeton à la derniere ligne(suite du programme)
-    
+    replay = False 
     if player == 1:
         label_player = Label(fen,text = "Le joueur jaune commence la partie", font = "arial 16 bold")
         
     else :   
         label_player = Label(fen,text = "Le joueur rouge commence la partie",font = "arial 16 bold")
-    label_player.pack()
     
+    label_player.pack()
     button_restart = Button(fen,text = "Recommencer ",font = "arial 16 bold",command =restart_game)
     button_menu = Button(fen,text = "Menu ",font = "arial 16 bold",command =fen.destroy)
+    button_replay = Button(fen,text = "↻",font = "arial 25 bold",command=fct_replay)
     button_restart.pack()
     button_menu.pack()
+    button_replay.pack()
     checkerboard() # on appelle la fonction pour generer le damier de jeu 
     can.bind("<Button>",player_action) # méthode qui enregistre les clics de la souris 
     fen.mainloop() # mainloop permet de faire une boucle qui ne se termine pas tant qu'on ne ferme pas la fenetre comme un while == True tant qu'on appuie par sur la croix de la fenetre du jeu 
@@ -52,21 +51,20 @@ def checkerboard(): # fonction pour créer le damier du jeu (sous forme de dessi
 
 
 def red_token(x1,y1,x2,y2): # fonction pour générer les pions rouges 
-    can.create_oval(x1+10,y1+10,x2-10,y2-10,fill = "#FF0000",width=3,outline = "white") # methode pour creer des formes ovales (donc en l'occurence les jetons)
-
+    return can.create_oval(x1+10,y1+10,x2-10,y2-10,fill = "#FF0000",width=3,outline = "white") # methode pour creer des formes ovales (donc en l'occurence les jetons)
+    
 
 def yellow_token(x1,y1,x2,y2): # fonction pour générer les pions jaunes 
-    can.create_oval(x1+10,y1+10,x2-10,y2-10,fill = "#FFEC00",width=3,outline = "white")
+    return can.create_oval(x1+10,y1+10,x2-10,y2-10,fill = "#FFEC00",width=3,outline = "white")
 
 def player_action(event): # fonction qui permet d'interpreter les entrées utilisateur (les clics de souris des joueurs)
-    global player,checkerboard_list, red_score,yellow_score,compteur_equality
+    global player,checkerboard_list, red_score,yellow_score,can,col,line,id_yellow_token,id_red_token
     
     X = event.x # cordonnées en X du clic 
     Y = event.y # cordonnés en Y du clic 
     col = X//100 # on fait la division euclidienne pour recuperer la colone du clic qui sont numérotées de 1 à 6
     line = Y//100 # on fait la division euclidienne pour recuperer la ligne du clic qui sont numérotées de 1 à 7
     id_checkerboard = [col,line] # variable qui récupere sous forme de liste la colonne et la ligne de l'entrée utilisateur 
-    
     
     
     if player == 1: # actions du joueur jaune 
@@ -77,14 +75,17 @@ def player_action(event): # fonction qui permet d'interpreter les entrées utili
         while checkerboard_list[col][line]!=0: # empecher de changer la couleur d'un pion qui est deja placé dans le damier
             line-=1    
         checkerboard_list[col][line] = 1
-        yellow_token(col*100,line*100,col*100+100,line*100+100) # on appelle la fonction pour créer un jeton jaune 
+        id_yellow_token = yellow_token(col*100,line*100,col*100+100,line*100+100) # on appelle la fonction pour créer un jeton jaune 
         
-        player = 2 # changement de joueur dans ce cas on passe du tour du joueur jaune au tour du joueur rouge
-        
+       
+         # changement de joueur dans ce cas on passe du tour du joueur jaune au tour du joueur rouge
+       
+        player = 2    
         if fct_equality(): # 42 soit 6*7 permet d'arreter le jeu lorsqu'il y a égalité entre les 2 joueurs c'est à dire quand tous les trous du damier sont occcupés 
             label_equality= Label(fen,text = "Egalité entre les 2 joueurs !",font= "arial 20 bold",bg ="#000EEC", fg ="black" )
             label_equality.place(x = 210,y=285)
             fen.after(3000, fen.destroy)
+        
         if fct_line_winner() or fct_column_winner() or fct_diagonal_winner(): # controler si un joueur a alligné 4 jetons
             label_yellow_winner = Label(fen,text = "Le joueur jaune a gagné",font= "arial 20 bold",bg ="#FFEC00", fg ="white" )
             label_yellow_winner.place(x = 210,y=285)
@@ -98,9 +99,12 @@ def player_action(event): # fonction qui permet d'interpreter les entrées utili
         while checkerboard_list[col][line]!=0:
             line-=1
         checkerboard_list[col][line] = 2
-        red_token(col*100,line*100,col*100+100,line*100+100)
+        id_red_token=red_token(col*100,line*100,col*100+100,line*100+100)
         player = 1
         
+        
+            
+
         if fct_equality(): # fonction qui teste si il y a encore de la place dans le damier
             label_equality= Label(fen,text = "Egalité entre les 2 joueurs !",font= "arial 20 bold",bg ="#000EEC", fg ="white" )
             label_equality.place(x = 210,y=285)
@@ -112,21 +116,36 @@ def player_action(event): # fonction qui permet d'interpreter les entrées utili
             red_score +=1
             player= 0
             fen.after(3000, fen.destroy)
-
+        
+        
 
 def restart_game():  # fonction pour recommencer la partie quand on clique sur le bouton "recommencer"
     fen.destroy()
     fct_classical_party()
 
 
+
+def fct_replay():
+    global player,checkerboard_list
+    if player == 1:
+        player = 2
+        can.delete(id_red_token)
+    else :
+        can.delete(id_yellow_token)
+        player = 1
+    checkerboard_list[col][line]= 0
+   
+   
+    
+
+
 def fct_equality():
     global checkerboard_list
     a =0
-    for i in range(0,7):    
-        if a in checkerboard_list[i]:
-            equality = False
-        else :
-            equality = True
+    if a in checkerboard_list[0]  or a in checkerboard_list[1] or a in checkerboard_list[2] or a in checkerboard_list[3] or a in checkerboard_list[4] or a in checkerboard_list[5] or a in checkerboard_list[6]: 
+        equality = False 
+    else :
+        equality =True 
     return equality
 
 
