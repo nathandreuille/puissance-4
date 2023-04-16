@@ -84,7 +84,7 @@ def fct_replay():
    
 
 fct_classical_party()
-"""
+
 
 from tkinter import * # module qui permet de creer le jeux 
 import random # module qui va nous permettre d'appeler la méthode randint pour choisir aléatoirement le joueur qui commence la partie
@@ -226,6 +226,25 @@ boutton_3manches.pack()
 can.bind( )
 frame.place(x = 130 , y = 130)
 quit.pack()
-windows.mainloop()
+windows.mainloop()"""
 
 
+
+
+liste = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+with open("fichier.txt", "w") as f:
+    for sous_liste in liste:
+        for nombre in sous_liste:
+            f.write(str(nombre) + " ")
+        f.write("\n")
+
+# Ouvrir le fichier et reconvertir la liste de listes en entiers
+listes_entiers = []
+with open("fichier.txt", "r") as f:
+    ligne = f.readline()
+    while ligne:
+        entiers = [int(nombre) for nombre in ligne.strip().split()]
+        listes_entiers.append(entiers)
+        ligne = f.readline()
+
+print(listes_entiers)
