@@ -226,7 +226,7 @@ boutton_3manches.pack()
 can.bind( )
 frame.place(x = 130 , y = 130)
 quit.pack()
-windows.mainloop()"""
+windows.mainloop()
 
 
 
@@ -247,4 +247,18 @@ with open("fichier.txt", "r") as f:
         listes_entiers.append(entiers)
         ligne = f.readline()
 
-print(listes_entiers)
+print(listes_entiers)"""
+from tkinter import Tk
+root = Tk()
+
+# Créer un label
+my_label = Label(root, text="Mon label")
+
+# Afficher le label à l'écran
+my_label.pack()
+
+# Supprimer le label après un délai de 5 secondes
+root.after(5000, my_label.destroy)
+
+# Lancer la boucle principale
+root.mainloop()
