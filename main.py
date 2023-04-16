@@ -10,7 +10,7 @@ def fct_classical_party ():
     
     # Création de la fenêtre pour la partie classique.
     fen = Tk() 
-    fen.configure(bg ="#CCD1D1") # Configuration de la couleur de fond de la fenêtre.
+    fen.configure(bg ="#EAECEE") # Configuration de la couleur de fond de la fenêtre.
     fen.title("partie classique puissance 4") # Ajout d'un titre à la fenêtre.
     fen.resizable(width=False,height= False) # Configuration de la fenêtre pour qu'elle ne soit pas redimensionnable.
     can = Canvas(fen,height= 600, width=700, bg = "#000EEC") # Création d'un canvas de dimensions 700x600 avec une couleur de fond.
@@ -174,7 +174,7 @@ def fct_diagonal_winner(): #fonction pour controler si un joueur a fait une diag
 windows = Tk() # fenetre du  menu principal 
 # configuration de la fenetre du menu 
 windows.title ("puissance 4") # titre du jeu
-windows.configure(bg ='#CCD1D1') # couleur menu principal 
+windows.configure(bg ='#EAECEE') # couleur menu principal 
 windows.resizable(width=False,height= False)
 can = Canvas(windows, width = 500, height = 500, bg ="white")
 font = 'arial 13 bold' # ecriture en gras
@@ -187,5 +187,5 @@ can.pack()
 boutton_classique.pack()
 boutton_3manches.pack()
 quit.pack()
-
+can.bind()
 windows.mainloop() # boucle du jeu 
